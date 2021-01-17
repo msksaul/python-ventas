@@ -1,12 +1,25 @@
 import sys
 
-clients = ['pablo', 'ricardo']
+clients = [
+  {
+    'name': 'Pablo',
+    'company': 'Google',
+    'email': 'pablo@google.com',
+    'position': 'Software Engineer'
+  },
+  {
+    'name': 'Ricardo',
+    'company': 'Facebook',
+    'email': 'ricardo@facebook.com',
+    'position': 'Data Engineer'
+  }
+]
 
-def create_client(client_name):
+def create_client(client):
   global clients
 
-  if client_name not in clients:
-    clients.append(client_name)
+  if client not in clients:
+    clients.append(client)
   else:
     print('Client already in client\'s list')
 
@@ -19,13 +32,13 @@ def update_client(client_name, updated_client):
   else:
     print('Client is not in clients list')
 
-def delete_client(client_name):
+def delete_client(client_id):
   global clients
 
-  if client_name in clients:
-    clients.remove(client_name)
-  else:
-    print('Client is not in clients list')
+  for idx, client in enumerate(clients):
+    if idx == cliend_id:
+      del clients[idx]
+      break
 
 def search_client(client_name):
   global clients
@@ -40,7 +53,13 @@ def list_clients():
   global clients
 
   for idx, client in enumerate(clients):
-    print('{}: {}'.format(idx, client))
+    print('{uid} | {name} | {company} | {email} | {position}'.format(
+      uid=idx,
+      name=client['name'],
+      company=client['company'],
+      email=client['email'],
+      position=client['position']
+    ))
 
 def _print_welcome():
   print('WELCOME TO PYTHON VENTAS')
@@ -51,6 +70,13 @@ def _print_welcome():
   print('[U]pdate client')
   print('[D]elete client')
   print('[S]earch client')
+
+def _get_client_field(field_name):
+  field = None
+
+  while not field:
+    field = input('What is the client {}?'.format(field_name))
+  return field
 
 def _get_client_name():
   client_name = None
@@ -71,8 +97,13 @@ if __name__ == '__main__':
   command = command.upper()
 
   if command == 'C':
-    client_name = _get_client_name()
-    create_client(client_name)
+    client = {
+      'name': _get_client_field('name'),
+      'company': _get_client_field('company'),
+      'email': _get_client_field('email'),
+      'position': _get_client_field('position')
+    }
+    create_client(client)
     list_clients()
   elif command == 'L':
     list_clients()
